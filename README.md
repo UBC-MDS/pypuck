@@ -1,3 +1,3 @@
-<img src="img/pypuck_logo.png" width="120" align = "right">
+<img src="img/pypuck_logo.png" width="150" align = "right">
 
 # PyPuck
