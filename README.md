@@ -1,3 +1,6 @@
+<img src="img/pypuck_logo.png" width="150" align = "right">
+
+# PyPuck
 ## pypuck 
 
 ![](https://github.com/jnederlo/pypuck/workflows/build/badge.svg) [![codecov](https://codecov.io/gh/jnederlo/pypuck/branch/master/graph/badge.svg)](https://codecov.io/gh/jnederlo/pypuck) ![Release](https://github.com/jnederlo/pypuck/workflows/Release/badge.svg)
