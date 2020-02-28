@@ -7,7 +7,7 @@
 
 [![Documentation Status](https://readthedocs.org/projects/pypuck/badge/?version=latest)](https://pypuck.readthedocs.io/en/latest/?badge=latest)
 
-: Functions to access the publicly available but undocumented NHL.com API
+: Functions to access the publicly available but undocumented NHL.com API so that you can will all the money in the hockey pool...
 
 ### Installation:
 
