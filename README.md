@@ -16,7 +16,11 @@ pip install -i https://test.pypi.org/simple/ pypuck
 ```
 
 ### Features
-- TODO
+
+- `player_stats(start_date=None, end_date=None)`:
+	- The `player_stats()` function makes an API call to the player summary endpoint on the NHL.com API. The function returns the top 100 player stats for a given date range as sorted by total points.
+- `team_stats(start_season=None, end_season=None)`:
+	- The `team_stats()` function makes an API call to the team summary endpoint on the NHL.com API. The function returns team seasonal stats for given seasons sorted by total team points.
 
 ### Dependencies
 
