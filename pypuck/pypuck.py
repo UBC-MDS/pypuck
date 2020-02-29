@@ -102,7 +102,9 @@ def team_stats(start_season=None, end_season=None):
 
 def draft_pick(pick_number = 1, round_number=None, year=None):
     """
-    This function sends an API request to the NHL.com website and gets basic statistics for specified team.
+    The function returns information about draft picks for the specified parameters and stores them in a pandas data frame.
+    If year is not specified then all of the draft picks for that year will be returned. If no round is specified 
+    the dataframe will include all of the players with chosen pick number from every round.
 
     Parameters:
     ------------------------
