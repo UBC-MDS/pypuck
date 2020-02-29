@@ -23,8 +23,8 @@ pip install -i https://test.pypi.org/simple/ pypuck
 	- The `player_stats()` function makes an API call to the player summary endpoint on the NHL.com API. The function returns the top 100 player stats for a given date range as sorted by total points.
 - `team_stats(start_season=None, end_season=None)`:
 	- The `team_stats()` function makes an API call to the team summary endpoint on the NHL.com API. The function returns team seasonal stats for given seasons sorted by total team points.
-
-- **get_curr_params**  - function that allows user to get relevant statistics for the current season for a specified team id.
+- `draft_pick(pick_number=None, round_number=None, year=None)`:
+	- The `draft_pick(pick_number=None, round_number=None, year=None)` function makes an API call to the drafts summary on the NHL.com API. The function returns information about draft picks for the specified arguments and stores them in a pandas data frame. 
 
 ### Python Ecosystem
 There are varieties of nhl themed packages created for different purposes. Some of the packages that have similar functionality include [Hockey-scraper](https://github.com/HarryShomer/Hockey-Scraper), [nhlscrapi](https://pythonhosted.org/nhlscrapi/) and [nhl-score-api](https://github.com/peruukki/nhl-score-api). Our function provides functionality in a simple package and serves as a learning tool for package building.  
