@@ -98,3 +98,37 @@ def team_stats(start_season=None, end_season=None):
     ------------------------------------------------
     """
     pass
+
+
+def draft_pick(pick_number = 1, round_number=None, year=None):
+    """
+    This function sends an API request to the NHL.com website and gets basic statistics for specified team.
+
+    Parameters:
+    ------------------------
+      pick_number : int
+        Desired pick number, must be in the range [1,38]. If nothing is specified, picks first draft in all rounds. 
+      round_number : int
+        Desired round number, must be in the range [1,25]
+      year : str
+        Year in which a draft took place. Must be 'YYYY' format, that contains year in a range [1963,2019]
+
+    Returns:
+    ------------------------
+    draft_df : pd.DataFrame
+        Drafts with specified parameters.
+
+    Examples
+    --------
+    >>> from pypuck import pypuck
+    >>> pick_number = 9
+    >>> round_number = 7 
+    >>> year = 2000 
+    >>> pypuck.draft_pick(pick_number = pick_number, round_number=round_number, year=year)
+
+    Player            | Round_num | Pick_num | Tri_code | Year | ...
+    ------------------------------------------------
+    Tim Eriksson      |     7     |    9     |   LAK    | 2000 | ...
+    ------------------------------------------------
+    """
+    pass
