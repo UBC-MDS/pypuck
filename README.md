@@ -1,13 +1,12 @@
-## pypuck
+<img src="img/pypuck_logo.png" width="150" align = "right">
 
-#### DSCI 524 Group 6
-#### By: Jarvis Nederlof, Polina Romanchenko, Zhong Xugang, Joshi Manish
+# PyPuck
 
-![](https://github.com/jnederlo/pypuck/workflows/build/badge.svg) [![codecov](https://codecov.io/gh/jnederlo/pypuck/branch/master/graph/badge.svg)](https://codecov.io/gh/jnederlo/pypuck) ![Release](https://github.com/jnederlo/pypuck/workflows/Release/badge.svg)
+![](https://github.com/UBC-MDS/pypuck/workflows/build/badge.svg) [![codecov](https://codecov.io/gh/UBC-MDS/pypuck/branch/master/graph/badge.svg)](https://codecov.io/gh/UBC-MDS/pypuck) ![Release](https://github.com/UBC-MDS/pypuck/workflows/Release/badge.svg)
 
 [![Documentation Status](https://readthedocs.org/projects/pypuck/badge/?version=latest)](https://pypuck.readthedocs.io/en/latest/?badge=latest)
 
-: Functions to access the publicly available but undocumented NHL.com API
+: Functions to access the publicly available but undocumented NHL.com API so that you can will all the money in the hockey pool...
 
 ### Purpose & Scope
 The pypuck package is designed to allow users ability to get both relevant and historical statistics for NHL. As of now the package has limited functionality that can further be extended based on feedback.     
@@ -19,7 +18,11 @@ pip install -i https://test.pypi.org/simple/ pypuck
 ```
 
 ### Features
-In this package you can find these four main functions:
+
+- `player_stats(start_date=None, end_date=None)`:
+	- The `player_stats()` function makes an API call to the player summary endpoint on the NHL.com API. The function returns the top 100 player stats for a given date range as sorted by total points.
+- `team_stats(start_season=None, end_season=None)`:
+	- The `team_stats()` function makes an API call to the team summary endpoint on the NHL.com API. The function returns team seasonal stats for given seasons sorted by total team points.
 
 - **get_curr_params**  - function that allows user to get relevant statistics for the current season for a specified team id.
 
