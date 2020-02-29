@@ -7,10 +7,10 @@ def season_stats(start_season=None, end_season = None):
 	
     Parameters
     ----------
-	  start_season : str
-	    The stat start year string in 'YYYYYYYY' format.
-	  end_date : str
-	    The stat end year string in 'YYYYYYYY' format.
+	    start_season : str
+	      The stat start year string in 'YYYYYYYY' format.
+	    end_date : str
+	      The stat end year string in 'YYYYYYYY' format.
 
     Returns
     -------
