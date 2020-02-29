@@ -36,6 +36,7 @@ There are varieties of nhl themed packages created for different purposes. Some 
 
 ### Dependencies
 - Python 3.7.4 and Python packages:
+
       - requests==2.22.0
       - pandas==0.25.2
       - numpy==1.17.2
