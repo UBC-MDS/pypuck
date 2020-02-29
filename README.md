@@ -1,7 +1,6 @@
 <img src="img/pypuck_logo.png" width="150" align = "right">
 
 # PyPuck
-## pypuck 
 
 ![](https://github.com/UBC-MDS/pypuck/workflows/build/badge.svg) [![codecov](https://codecov.io/gh/UBC-MDS/pypuck/branch/master/graph/badge.svg)](https://codecov.io/gh/UBC-MDS/pypuck) ![Release](https://github.com/UBC-MDS/pypuck/workflows/Release/badge.svg)
 
