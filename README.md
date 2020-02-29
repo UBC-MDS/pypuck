@@ -3,7 +3,7 @@
 # PyPuck
 ## pypuck 
 
-![](https://github.com/jnederlo/pypuck/workflows/build/badge.svg) [![codecov](https://codecov.io/gh/jnederlo/pypuck/branch/master/graph/badge.svg)](https://codecov.io/gh/jnederlo/pypuck) ![Release](https://github.com/jnederlo/pypuck/workflows/Release/badge.svg)
+![](https://github.com/UBC-MDS/pypuck/workflows/build/badge.svg) [![codecov](https://codecov.io/gh/UBC-MDS/pypuck/branch/master/graph/badge.svg)](https://codecov.io/gh/UBC-MDS/pypuck) ![Release](https://github.com/UBC-MDS/pypuck/workflows/Release/badge.svg)
 
 [![Documentation Status](https://readthedocs.org/projects/pypuck/badge/?version=latest)](https://pypuck.readthedocs.io/en/latest/?badge=latest)
 
