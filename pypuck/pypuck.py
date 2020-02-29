@@ -7,15 +7,14 @@ def season_stats(start_season=None, end_season = None):
 	
     Parameters
     ----------
-
-	start_season : str
+	  start_season : str
 	  The stat start year string in 'YYYYYYYY' format.
-	end_date : str
+	  end_date : str
 	  The stat end year string in 'YYYYYYYY' format.
     Returns
     -------
     pandas.core.DataFrame
-      The season stats in a dataframe.
+    The season stats in a dataframe.
     Examples
     --------
     >>> from pypuck import pypuck
