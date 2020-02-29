@@ -6,11 +6,11 @@
 
 [![Documentation Status](https://readthedocs.org/projects/pypuck/badge/?version=latest)](https://pypuck.readthedocs.io/en/latest/?badge=latest)
 
-: Functions to access the publicly available but undocumented NHL.com API so that you can will all the money in the hockey pool...
-
 ### Purpose & Scope
-If you were to try and analyze statistics for your favorite hockey team, or try to predict an outcome of the next match you’d probably browsed the Internet in search of convenient tools to get the data you want from the NHL website. The pypuck package is designed to allow users ability to get both relevant and historical statistics for NHL. 
-This project was created as a part of [UBC MDS program](https://masterdatascience.ubc.ca/), and due to it's simplicity can be used as a learning tool for anyone interested in Data Science topics. As of now the package has limited functionality that can further be extended based on feedback.     
+
+If you were to try and analyze statistics for your favorite hockey team, or try to predict an outcome of the next match you’d probably browse the internet in search of convenient tools to get the data you want from the NHL website. The pypuck package is designed to allow users ability to get both relevant and historical statistics from the publicly available but as of yet undocumented NHL.com API. There are currently a few other packages that scrape various elements of the NHL.com, our addition builds on what's available.
+
+This project was created as a part of [UBC MDS program](https://masterdatascience.ubc.ca/), and due to it's simplicity can be used as a learning tool for anyone interested in Data Science topics. As of now the package is considered a work-in-progress. We will add to the functionality in the coming weeks and are open to suggestions.
 
 ### Team
 
@@ -36,7 +36,7 @@ pip install -i https://test.pypi.org/simple/ pypuck
 
 
 ### Python Ecosystem
-There are varieties of nhl themed packages created for different purposes. Some of the packages that have similar functionality include [Hockey-scraper](https://github.com/HarryShomer/Hockey-Scraper), [nhlscrapi](https://pythonhosted.org/nhlscrapi/) and [nhl-score-api](https://github.com/peruukki/nhl-score-api). Our function provides functionality in a simple package and serves as a learning tool for package building.  
+There are a variety of nhl themed packages created for different purposes. Some of the packages that have similar functionality include [Hockey-scraper](https://github.com/HarryShomer/Hockey-Scraper), [nhlscrapi](https://pythonhosted.org/nhlscrapi/) and [nhl-score-api](https://github.com/peruukki/nhl-score-api). Our function provides functionality in a simple package and serves as a learning tool for package building.  
 
 
 ### Dependencies
