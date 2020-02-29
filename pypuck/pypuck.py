@@ -35,6 +35,38 @@ def player_stats(start_date=None, end_date=None):
     pass
 
 
+def attendance(regular=True, playoffs=True, season=None):
+    """
+    Query to the Attendance API to get the NHL's seasonal and playoff attendance numbers.
+       
+
+
+
+    Parameters
+    ----------
+    regular : boolean (default True).
+    
+    playoffs : boolean (default True)
+  
+    season : str (default None)
+  
+
+    Returns
+    -------
+    altair.vegalite.v3.api.Chart
+      It wil display attendance numbers in an Altair chart.
+
+    Examples
+    --------
+    >>> from pypuck import pypuck
+    >>> pypuck.attendance(regular=True, playoffs=True, season='2019-02')
+        
+    ...
+    """
+    pass
+
+
+
 def team_stats(start_season=None, end_season=None):
     """
     Get team season stats specified by start year or start year and end year.
