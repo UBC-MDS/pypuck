@@ -1,7 +1,3 @@
-import requests
-import json
-import pandas as pd
-
 def player_stats(start_date=None, end_date=None):
     """
     Query the top 100 player's stats (sorted by total points)
