@@ -45,10 +45,8 @@ def player_stats(start_date=None, end_date=None):
     ...
     """
     # Set dates to current season if none
-    if start_date is None:
-        start_date = '2019-10-02'
-    if end_date is None:
-        end_date = '2020-04-11'
+    start_date = '2019-10-02' if start_date is None else start_date
+    end_date = '2020-04-11' if end_date is None else end_date
 
     # Check that the arguments are of the correct type, in the correct format, and in the correct order
     helpers.check_argument_type(start_date, 'start_date', str)
