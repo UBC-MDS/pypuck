@@ -1,5 +1,3 @@
-
-
 def player_stats(start_date=None, end_date=None):
     """
     Query the top 100 player's stats (sorted by total points)
@@ -110,8 +108,10 @@ def team_stats(start_season=None, end_season=None):
 def draft_pick(pick_number = 1, round_number=None, year=None):
     """
     The function returns information about draft picks for the specified parameters and stores them in a pandas data frame.
-    If year is not specified then all of the draft picks for that year will be returned. If no round is specified 
-    the dataframe will include all of the players with chosen pick number from every round.
+    If year is not specified, then all of the draft picks for all year will be returned. If no round is specified 
+    the data frame will include all players with chosen pick number from every round.
+    There are cases when even though user entered valid parameters, output would be empty 
+    if a pick number didn't exist in a specified round, assert error would be raised.  
 
     Parameters:
     ------------------------
@@ -140,4 +140,24 @@ def draft_pick(pick_number = 1, round_number=None, year=None):
     Tim Eriksson      |     7     |    9     |   LAK    | 2000 | ...
     ------------------------------------------------
     """
-    pass
+    #Checking if input is proper
+    assert pick_number in range(1,38), 'Number of pick is out of avaliable range'
+    if round_number : assert round_number in range(1, 25), 'Number of round is out of avaliable range'
+    if year : assert year in range (1963,2019), 'Year is out if avaliable range'    
+    
+    api = requests.get("https://records.nhl.com/site/api/draft").json()
+    stats = pd.DataFrame(api['data'])
+        
+    if round_number and year:
+        query = "pickInRound == @pick_number and roundNumber == @round_number and draftYear == @year"
+    elif round_number:
+        query = "pickInRound == @pick_number and roundNumber == @round_number"
+    elif year:
+        query = "pickInRound == @pick_number and draftYear == @year"
+    else:
+        query = "pickInRound == @pick_number"
+    
+    df = stats.query(query)[['playerName', 'pickInRound', 'roundNumber', 'triCode', 'draftYear']]
+    #Checking if output is valid
+    assert df.empty == False, 'Specified pick number didn`t exist in specified round or year'
+    return df
