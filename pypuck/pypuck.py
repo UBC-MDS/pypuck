@@ -135,8 +135,8 @@ def draft_pick(pick_number = 1, round_number=None, year=None):
     """
     #Checking if input is proper
     assert pick_number in range(1,38), 'Number of pick is out of avaliable range'
-    assert round_number in range(1, 25), 'Number of round is out of avaliable range'
-    assert year in range (1963,2019), 'Year is out if avaliable range'    
+    if round_number : assert round_number in range(1, 25), 'Number of round is out of avaliable range'
+    if year : assert year in range (1963,2019), 'Year is out if avaliable range'    
     
     api = requests.get("https://records.nhl.com/site/api/draft").json()
     stats = pd.DataFrame(api['data'])
@@ -152,5 +152,5 @@ def draft_pick(pick_number = 1, round_number=None, year=None):
     
     df = stats.query(query)[['playerName', 'pickInRound', 'roundNumber', 'triCode', 'draftYear']]
     #Checking if output is valid
-    assert df.empty == True, 'Specified pick number didn`t exist in specified round or year'
+    assert df.empty == False, 'Specified pick number didn`t exist in specified round or year'
     return df
