@@ -102,7 +102,7 @@ def draft_pick(pick_number = 1, round_number=None, year=None):
     """
     The function returns information about draft picks for the specified parameters and stores them in a pandas data frame.
     If year is not specified, then all of the draft picks for all year will be returned. If no round is specified 
-    the dataframe will include all of the players with chosen pick number from every round.
+    the data frame will include all players with chosen pick number from every round.
     There are cases when even though user entered valid parameters, output would be empty 
     if a pick number didn't exist in a specified round, assert error would be raised.  
 
