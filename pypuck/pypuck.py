@@ -1,3 +1,14 @@
+# authors: Jarvis Nederlof
+# date: 2020-03-02
+
+"""
+Need to add usage, etc.
+"""
+
+import requests
+import pandas as pd
+from pypuck.helpers import helpers
+
 def player_stats(start_date=None, end_date=None):
     """
     Query the top 100 player's stats (sorted by total points)
@@ -7,6 +18,9 @@ def player_stats(start_date=None, end_date=None):
     for a range of dates. If no date is specified the function will return
     the players stats for the current season. The stats to be
     returned are restricted to the regular season.
+
+    The function will return the current season's stats if the arguments
+    are blank (i.e. left as None).
 
     Parameters
     ----------
@@ -30,7 +44,37 @@ def player_stats(start_date=None, end_date=None):
     -------------------------------------------
     ...
     """
-    pass
+    # Set dates to current season if none
+    start_date = '2019-10-02' if start_date is None else start_date
+    end_date = '2020-04-11' if end_date is None else end_date
+
+    # Check that the arguments are of the correct type, in the correct format, and in the correct order
+    helpers.check_argument_type(start_date, 'start_date', str)
+    helpers.check_argument_type(end_date, 'end_date', str)
+    helpers.check_date_format(start_date)
+    helpers.check_date_format(end_date)
+    helpers.check_date(start_date, end_date)
+
+    # Specify the URL
+    url = 'https://api.nhle.com/stats/rest/en/skater/summary?' +\
+            'isAggregate=true&' +\
+            'isGame=true&' +\
+            'sort=[{"property":"points","direction":"DESC"},' +\
+            '{"property":"goals","direction":"DESC"},' +\
+            '{"property":"assists","direction":"DESC"}]&' +\
+            'start=0&' +\
+            'limit=100&' +\
+            'factCayenneExp=gamesPlayed>=1&' +\
+            f'cayenneExp=gameDate<="{end_date}" and gameDate>="{start_date}" and gameTypeId=2'
+
+    # Make the API request
+    page = requests.get(url)
+
+    # Check the response code is valid - i.e. the API didn't fail
+    helpers.check_response_code(page.status_code)
+
+    # Return the top 100 players dataframe
+    return pd.DataFrame(page.json()['data'])
 
 
 def attendance(regular=True, playoffs=True, season=None):
