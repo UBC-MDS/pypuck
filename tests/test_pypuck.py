@@ -78,6 +78,5 @@ def test_team_stats_good(start_season='20192020', end_season='20192020'):
 	"""
 	# Test for various end_dates
 	df = pypuck.team_stats(start_season='19992000',end_season='20102011')
-	if df.empty== True:
+	if df.empty == True:
 		raise TypeError("invalid Inputs, Season_start should be later than Season end. Valid seasons are from 1917 to 2020")
-
