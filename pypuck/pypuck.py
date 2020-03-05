@@ -1,4 +1,13 @@
+# authors: Jarvis Nederlof
+# date: 2020-03-02
 
+"""
+Need to add usage, etc.
+"""
+
+import requests
+import pandas as pd
+from pypuck.helpers import helpers
 
 def player_stats(start_date=None, end_date=None):
     """
@@ -9,6 +18,9 @@ def player_stats(start_date=None, end_date=None):
     for a range of dates. If no date is specified the function will return
     the players stats for the current season. The stats to be
     returned are restricted to the regular season.
+
+    The function will return the current season's stats if the arguments
+    are blank (i.e. left as None).
 
     Parameters
     ----------
@@ -32,7 +44,37 @@ def player_stats(start_date=None, end_date=None):
     -------------------------------------------
     ...
     """
-    pass
+    # Set dates to current season if none
+    start_date = '2019-10-02' if start_date is None else start_date
+    end_date = '2020-04-11' if end_date is None else end_date
+
+    # Check that the arguments are of the correct type, in the correct format, and in the correct order
+    helpers.check_argument_type(start_date, 'start_date', str)
+    helpers.check_argument_type(end_date, 'end_date', str)
+    helpers.check_date_format(start_date)
+    helpers.check_date_format(end_date)
+    helpers.check_date(start_date, end_date)
+
+    # Specify the URL
+    url = 'https://api.nhle.com/stats/rest/en/skater/summary?' +\
+            'isAggregate=true&' +\
+            'isGame=true&' +\
+            'sort=[{"property":"points","direction":"DESC"},' +\
+            '{"property":"goals","direction":"DESC"},' +\
+            '{"property":"assists","direction":"DESC"}]&' +\
+            'start=0&' +\
+            'limit=100&' +\
+            'factCayenneExp=gamesPlayed>=1&' +\
+            f'cayenneExp=gameDate<="{end_date}" and gameDate>="{start_date}" and gameTypeId=2'
+
+    # Make the API request
+    page = requests.get(url)
+
+    # Check the response code is valid - i.e. the API didn't fail
+    helpers.check_response_code(page.status_code)
+
+    # Return the top 100 players dataframe
+    return pd.DataFrame(page.json()['data'])
 
 
 def attendance(regular=True, playoffs=True, season=None):
@@ -103,8 +145,10 @@ def team_stats(start_season=None, end_season=None):
 def draft_pick(pick_number = 1, round_number=None, year=None):
     """
     The function returns information about draft picks for the specified parameters and stores them in a pandas data frame.
-    If year is not specified then all of the draft picks for that year will be returned. If no round is specified 
-    the dataframe will include all of the players with chosen pick number from every round.
+    If year is not specified, then all of the draft picks for all year will be returned. If no round is specified 
+    the data frame will include all players with chosen pick number from every round.
+    There are cases when even though user entered valid parameters, output would be empty 
+    if a pick number didn't exist in a specified round, assert error would be raised.  
 
     Parameters:
     ------------------------
@@ -133,5 +177,25 @@ def draft_pick(pick_number = 1, round_number=None, year=None):
     Tim Eriksson      |     7     |    9     |   LAK    | 2000 | ...
     ------------------------------------------------
     """
-    pass
 
+    #Checking if input is proper
+    assert pick_number in range(1,38), 'Number of pick is out of avaliable range'
+    if round_number : assert round_number in range(1, 25), 'Number of round is out of avaliable range'
+    if year : assert year in range (1963,2019), 'Year is out if avaliable range'    
+    
+    api = requests.get("https://records.nhl.com/site/api/draft").json()
+    stats = pd.DataFrame(api['data'])
+        
+    if round_number and year:
+        query = "pickInRound == @pick_number and roundNumber == @round_number and draftYear == @year"
+    elif round_number:
+        query = "pickInRound == @pick_number and roundNumber == @round_number"
+    elif year:
+        query = "pickInRound == @pick_number and draftYear == @year"
+    else:
+        query = "pickInRound == @pick_number"
+    
+    df = stats.query(query)[['playerName', 'pickInRound', 'roundNumber', 'triCode', 'draftYear']]
+    #Checking if output is valid
+    assert df.empty == False, 'Specified pick number didn`t exist in specified round or year'
+    return df
