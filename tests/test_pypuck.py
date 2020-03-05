@@ -7,6 +7,7 @@ This script tests the pypuck functions in the pypuck module.
 
 from pypuck import pypuck
 import pandas as pd
+import pytest
 
 # @pytest.mark.skip()
 def test_player_stats_good(start_date='2019-10-02', end_date='2020-02-28'):
@@ -100,3 +101,52 @@ def check_error_draft(pick_number = 'BC', round_number = 'Van', year = 2020):
         df = pypuck.draft_check(pick_number, round_number, year)
     except:
         pass
+
+
+def test_attendance_good():
+	a = attendance(start_season=None, end_season=2010)
+	assert isinstance(a, alt.vegalite.v3.api.HConcatChart), "The return should include two subplots "
+
+	a = attendance(start_season=2000, end_season=None)
+	assert isinstance(a, alt.vegalite.v3.api.HConcatChart), "The return should include two subplots "
+
+	a = attendance(start_season=1980, end_season=2001)
+	assert isinstance(a, alt.vegalite.v3.api.HConcatChart), "The return should include two subplots "
+
+	a = attendance(regular=True, playoffs=False, start_season=1980, end_season=2001)
+	assert isinstance(a, alt.vegalite.v3.api.Chart), "The return should be only one plot"
+
+	a = attendance(regular=False, playoffs=True, start_season=1980, end_season=2001)
+	assert isinstance(a, alt.vegalite.v3.api.Chart), "The return should be only one plot"	
+
+
+def test_attendance_bad():
+
+
+	with pytest.raises(Exception) as e:
+        assert attendance(start_season=2011, end_season=2010)
+    assert str(e.value) == "End season should be larger than the start season"
+
+	with pytest.raises(Exception) as e:
+        assert attendance(start_season=1951, end_season=2010)
+    assert str(e.value) == "Start season is out of range"
+
+	with pytest.raises(Exception) as e:
+        assert attendance(start_season=1991, end_season=2021)
+    assert str(e.value) == "End season is out of range"
+
+	with pytest.raises(Exception) as e:
+        assert attendance(regular=False, playoffs=False, start_season=1980, end_season=2001)
+    assert str(e.value) == " Must select at least one attendance type"
+
+	with pytest.raises(Exception) as e:
+        assert attendance(regular=True, playoffs=2, start_season=1980, end_season=2001)
+    assert str(e.value) == "Only boolean value can be accepted"
+
+	with pytest.raises(Exception) as e:
+        assert attendance(regular=2, playoffs=2, start_season=1980, end_season=2001)
+    assert str(e.value) == "Only boolean value can be accepted"
+
+	with pytest.raises(Exception) as e:
+        assert attendance(regular=2, playoffs=True, start_season=1980, end_season=2001)
+    assert str(e.value) == "Only boolean value can be accepted"
