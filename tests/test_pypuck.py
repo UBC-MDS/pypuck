@@ -1,4 +1,4 @@
-# authors: Jarvis Nederlof
+# authors: Jarvis Nederlof, Manish Joshi
 # date: 2020-03-02
 
 """
@@ -61,5 +61,23 @@ def test_player_stats_bad(start_date='2020-02-28', end_date='2019-10-02'):
 	except:
 		# This error is expected
 		pass
+    
 
+
+def test_team_stats_good(start_season='20192020', end_season='20192020'):
+	"""
+	Test function to check proper inputs and returns.
+
+	Keyword Arguments:
+		start_date {str} -- start_date to query (default: {'20192020'})
+		end_date {str} -- end_date to query (default: {'20192020'})
+
+	Raises:
+		TypeError: A message if return type is wrong (wrong data type).
+		ValueError: A message if return value is wrong (not enough data).
+	"""
+	# Test for various end_dates
+	df = pypuck.team_stats(start_season='19992000',end_season='20102011')
+	if df.empty== True:
+		raise TypeError("invalid Inputs, Season_start should be later than Season end. Valid seasons are from 1917 to 2020")
 

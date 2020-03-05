@@ -109,7 +109,7 @@ def attendance(regular=True, playoffs=True, season=None):
 
 
 
-def team_stats(start_season=None, end_season=None):
+def team_stats(start_season= "20192020", end_season="20192020"):
     """
     Get team season stats specified by start year or start year and end year.
     If no year is specified then the year 2019-2020 is default.
@@ -139,7 +139,26 @@ def team_stats(start_season=None, end_season=None):
     Edmonton Oilers |  34  |   23   |  5 |   73   | ...
     ------------------------------------------------
     """
-    pass
+    
+    base_url = 'https://api.nhle.com/stats/rest/en/team/summary?'
+    arguments = 'cayenneExp=gameTypeId=2' +\
+          f' and seasonId<={end_season}' +\
+          f' and seasonId>={start_season}'
+    if str.isdecimal(start_season) == False:
+      print("Invalid Input. Enter start_season in Bi-Annual format. 'YYYYYYYY'")
+      return
+    if str.isdecimal(end_season) == False:
+      print("Invalid Input. Enter end_season in Bi-Annual format. 'YYYYYYYY'")
+      return
+    # print(base_url + arguments)
+    page = requests.get(base_url + arguments)
+    #print(page.url)
+    df = pd.DataFrame(page.json()['data'])
+    if df.empty == True:
+      print("Invalid Inputs. Season_start should be later than Season end. Valid seasons are from 1917 to 2020. Enter years in Bi-Annual format of 'YYYYYYYY'")
+    else:
+      print(df.head())
+    return df
 
 
 def draft_pick(pick_number = 1, round_number=None, year=None):
