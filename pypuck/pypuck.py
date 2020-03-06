@@ -147,7 +147,7 @@ def attendance(regular=True, playoffs=True, start_season=None, end_season=None):
     if end_season not in range (1976,2020):
       raise Exception('End season is out of range') 
 
-    if end_season <= start_season):
+    if end_season <= start_season:
       raise Exception('End season should be not be earlier than the start season') 
 
         
@@ -191,13 +191,6 @@ def attendance(regular=True, playoffs=True, start_season=None, end_season=None):
     else:
         raise Exception('Must select at least one attendance type')
     return plot  
-
-
-
-
-
-
-
 
 
 def team_stats(start_season= "20192020", end_season="20192020"):

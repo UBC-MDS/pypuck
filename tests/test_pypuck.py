@@ -8,6 +8,7 @@ This script tests the pypuck functions in the pypuck module.
 from pypuck import pypuck
 import pandas as pd
 import pytest
+import altair as alt
 
 # @pytest.mark.skip()
 def test_player_stats_good(start_date='2019-10-02', end_date='2020-02-28'):
@@ -40,6 +41,7 @@ def test_player_stats_good(start_date='2019-10-02', end_date='2020-02-28'):
         if len(df) != 100:
             raise ValueError("player_stats() didn't return the top 100 players.")
 
+# @pytest.mark.skip()
 def test_player_stats_bad(start_date='2020-02-28', end_date='2019-10-02'):
     """
     Test function to check that function gracefully hanldes errors
@@ -49,20 +51,17 @@ def test_player_stats_bad(start_date='2020-02-28', end_date='2019-10-02'):
         start_date {str} -- start_date to query (default: {'2020-02-28'})
         end_date {str} -- end_date to query (default: {'2019-10-02'})
     """
-    try:
-        df = pypuck.player_stats(start_date, end_date)
-    except:
-        # This error is expected
-        pass
+    with pytest.raises(Exception) as e:
+        assert pypuck.player_stats(start_date, end_date)
+    assert (str(e.value) == "Invalid date range - end_date earlier than start_date")
 
     # Change start_date to bad type
     start_date = 2019
-    try:
-        df = pypuck.player_stats(start_date, end_date)
-    except:
-        # This error is expected
-        pass
+    with pytest.raises(Exception) as e:
+        assert pypuck.player_stats(start_date, end_date)
+    assert (str(e.value) == "Expecting <class 'str'> got <class 'int'> for start_date")
     
+# @pytest.mark.skip()
 def test_team_stats():
     """
     Function to test that the team_stats function appropriately returns a pd.DataFrame object
@@ -89,7 +88,7 @@ def test_team_stats():
     df = pypuck.team_stats()
     assert int(df['seasonId'].mean()) == 20192020, "A function call with default arguments should return current season"
 
-  
+# @pytest.mark.skip()
 def test_draft(pick_number = 1, round_number = 2, year = 2000):
     """
     Test function to check proper inputs and returns.
@@ -110,12 +109,14 @@ def test_draft(pick_number = 1, round_number = 2, year = 2000):
         except:
             pass
 
+# @pytest.mark.skip()
 def test_drafted_person():
     draft = pypuck.draft_pick(pick_number = 1, round_number=2, year=2000)
     print(draft['playerName'].values)
     if draft['playerName'].values != 'Ilya Nikulin':
         raise ValueError('draft_pick() returned errorness information about specified parameters')
 
+# @pytest.mark.skip()
 def test_error_draft(pick_number = 'BC', round_number = 'Van', year = 2020): 
     """
     Test function to check that it handles errorness input in draft_pick function.
@@ -132,63 +133,61 @@ def test_error_draft(pick_number = 'BC', round_number = 'Van', year = 2020):
 
 
 def test_attendance_good():
-	"""
-	Test function to check proper inputs and returns.
+    """
+    Test function to check proper inputs and returns.
 
-	Raises:
-		ValueError: A message if input/output is not proper.
-	"""
+    Raises:
+        ValueError: A message if input/output is not proper.
+    """
 
+    a = pypuck.attendance(regular=True, playoffs=False, start_season=None, end_season=2010)
+    assert (a._schema['$ref'] == '#/definitions/TopLevelUnitSpec'), "The return be only one plot"
 
-	a = attendance(regular=True, playoffs=False, start_season=None, end_season=2010)
-	assert isinstance(a, alt.vegalite.v3.api.HConcatChart), "The return should include two subplots "
+    a = pypuck.attendance(start_season=2000, end_season=None)
+    assert (a._schema['$ref'] == '#/definitions/TopLevelHConcatSpec'), "The return should include two subplots"
 
-	a = attendance(start_season=2000, end_season=None)
-	assert isinstance(a, alt.vegalite.v3.api.HConcatChart), "The return should include two subplots "
+    a = pypuck.attendance(regular=True, playoffs=False, start_season=1980, end_season=2001)
+    assert (a._schema['$ref'] == '#/definitions/TopLevelUnitSpec'), "The return be only one plot"
 
-	a = attendance(regular=True, playoffs=False, start_season=1980, end_season=2001)
-	assert isinstance(a, alt.vegalite.v3.api.HConcatChart), "The return should include two subplots "
+    a = pypuck.attendance(regular=True, playoffs=False, start_season=1980, end_season=2001)
+    assert (a._schema['$ref'] == '#/definitions/TopLevelUnitSpec'), "The return be only one plot"
 
-	a = attendance(regular=True, playoffs=False, start_season=1980, end_season=2001)
-	assert isinstance(a, alt.vegalite.v3.api.Chart), "The return should be only one plot"
-
-	a = attendance(regular=False, playoffs=True, start_season=1980, end_season=2001)
-	assert isinstance(a, alt.vegalite.v3.api.Chart), "The return should be only one plot"	
+    a = pypuck.attendance(regular=False, playoffs=True, start_season=1980, end_season=2001)
+    assert (a._schema['$ref'] == '#/definitions/TopLevelUnitSpec'), "The return be only one plot"
 
 
 def test_attendance_bad():
-	"""
-	Test function to check proper inputs and returns.
+    """
+    Test function to check proper inputs and returns.
 
-	Raises:
-		ValueError: A message if input/ouput is not proper.
-	"""
+    Raises:
+        ValueError: A message if input/ouput is not proper.
+    """
 
+    with pytest.raises(Exception) as e:
+        assert pypuck.attendance(start_season=2011, end_season=2010)
+    assert str(e.value) == 'End season should be not be earlier than the start season'
 
-	with pytest.raises(Exception) as e:
-        assert attendance(start_season=2011, end_season=2010)
-    assert str(e.value) == "End season should be larger than the start season"
-
-	with pytest.raises(Exception) as e:
-        assert attendance(start_season=1951, end_season=2010)
+    with pytest.raises(Exception) as e:
+        assert pypuck.attendance(start_season=1951, end_season=2010)
     assert str(e.value) == "Start season is out of range"
 
-	with pytest.raises(Exception) as e:
-        assert attendance(start_season=1991, end_season=2021)
+    with pytest.raises(Exception) as e:
+        assert pypuck.attendance(start_season=1991, end_season=2021)
     assert str(e.value) == "End season is out of range"
 
-	with pytest.raises(Exception) as e:
-        assert attendance(regular=False, playoffs=False, start_season=1980, end_season=2001)
-    assert str(e.value) == " Must select at least one attendance type"
+    with pytest.raises(Exception) as e:
+        assert pypuck.attendance(regular=False, playoffs=False, start_season=1980, end_season=2001)
+    assert str(e.value) == "Must select at least one attendance type"
 
-	with pytest.raises(Exception) as e:
-        assert attendance(regular=True, playoffs=2, start_season=1980, end_season=2001)
-    assert str(e.value) == "Only boolean value can be accepted"
+    with pytest.raises(Exception) as e:
+        assert pypuck.attendance(regular=True, playoffs=2, start_season=1980, end_season=2001)
+    assert str(e.value) == "Expecting <class 'bool'> got <class 'int'> for playoffs"
 
-	with pytest.raises(Exception) as e:
-        assert attendance(regular=2, playoffs=2, start_season=1980, end_season=2001)
-    assert str(e.value) == "Only boolean value can be accepted"
+    with pytest.raises(Exception) as e:
+        assert pypuck.attendance(regular=2, playoffs=2, start_season=1980, end_season=2001)
+    assert str(e.value) == "Expecting <class 'bool'> got <class 'int'> for regular"
 
-	with pytest.raises(Exception) as e:
-        assert attendance(regular=2, playoffs=True, start_season=1980, end_season=2001)
-    assert str(e.value) == "Only boolean value can be accepted"
+    with pytest.raises(Exception) as e:
+        assert pypuck.attendance(regular=2, playoffs=True, start_season=1980, end_season=2001)
+    assert str(e.value) == "Expecting <class 'bool'> got <class 'int'> for regular"
