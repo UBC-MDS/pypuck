@@ -132,11 +132,8 @@ def attendance(regular=True, playoffs=True, start_season=None, end_season=None):
         end_season = 2019    
             
     # check if a proper input is given
-    if type(regular) != bool:
-      raise Exception('Only boolean value can be accepted')
-
-    if type(playoffs) != bool:
-      raise Exception('Only boolean value can be accepted')
+    helpers.check_argument_type(regular, 'regular', bool)
+    helpers.check_argument_type(playoffs, 'playoffs', bool)
 
     if start_season not in range (1975,2019):
       raise Exception('Start season is out of range')
