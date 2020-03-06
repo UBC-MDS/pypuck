@@ -80,8 +80,14 @@ def player_stats(start_date=None, end_date=None):
 
 def attendance(regular=True, playoffs=True, start_season=None, end_season=None):
     """
-    Query to the Attendance API to get the NHL's seasonal and playoff attendance numbers.
-       
+    Query the NHL attendance number from 1975 to 2019 from the NHL records API. The 
+    attendance represents annual attendance numbers for all teams.
+
+    The user can specify to return either the regular season attendance, playoff attendance
+    numbers, or both. The function will display a chart showing the attendance over the 
+    specified time period.
+
+
     Parameters
     ----------
     regular : boolean (default True).
