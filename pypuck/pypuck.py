@@ -7,6 +7,7 @@ Need to add usage, etc.
 
 import requests
 import pandas as pd
+import altair as alt
 from pypuck.helpers import helpers
 
 def player_stats(start_date=None, end_date=None):
@@ -77,22 +78,28 @@ def player_stats(start_date=None, end_date=None):
     return pd.DataFrame(page.json()['data'])
 
 
-def attendance(regular=True, playoffs=True, season=None):
+def attendance(regular=True, playoffs=True, start_season=None, end_season=None):
     """
-    Query to the Attendance API to get the NHL's seasonal and playoff attendance numbers.
-       
+    Query the NHL attendance number from 1975 to 2019 from the NHL records API. The 
+    attendance represents annual attendance numbers for all teams.
 
+    The user can specify to return either the regular season attendance, playoff attendance
+    numbers, or both. The function will display a chart showing the attendance over the 
+    specified time period.
 
 
     Parameters
     ----------
     regular : boolean (default True).
-    
+        Whether to query seasonal regular season attendance data.
     playoffs : boolean (default True)
-  
-    season : str (default None)
-  
+        Whether to query seasonal playoff attendance data.
 
+    start_season : str (default None)
+      The stat start date string in 'YYYY' format.
+    end_seaon : str (default None)
+      The stat end date string in 'YYYY' format.
+  
     Returns
     -------
     altair.vegalite.v3.api.Chart
@@ -101,12 +108,89 @@ def attendance(regular=True, playoffs=True, season=None):
     Examples
     --------
     >>> from pypuck import pypuck
-    >>> pypuck.attendance(regular=True, playoffs=True, season='2019-02')
+    >>> pypuck.attendance(regular=True, playoffs=True, start_season=2000, end_season=2019)
         
     ...
     """
-    pass
+    
+    # Specify the URL
+    url= 'https://records.nhl.com/site/api/attendance'
 
+    # Make the API request
+    page = requests.get(url)
+
+    # Check the response code is valid - i.e. the API didn't fail
+    helpers.check_response_code(page.status_code)
+    
+    df = pd.DataFrame(page.json()['data']).sort_values(by=['seasonId'])
+
+    df= df.fillna(0)
+    df.playoffAttendance = df.playoffAttendance.astype(int)
+    df.regularAttendance = df.regularAttendance.astype(int)
+    df = df.rename(columns={'regularAttendance': 'regular',
+                       'playoffAttendance': 'playoff'})
+  
+    # set start seaon and end season to default value if none
+    if pd.isnull(start_season):
+        start_season = 1975    
+
+    if pd.isnull(end_season):
+        end_season = 2019    
+            
+    # check if a proper input is given
+    helpers.check_argument_type(regular, 'regular', bool)
+    helpers.check_argument_type(playoffs, 'playoffs', bool)
+
+    if start_season not in range (1975,2019):
+      raise Exception('Start season is out of range')
+
+    if end_season not in range (1976,2020):
+      raise Exception('End season is out of range') 
+
+    if end_season <= start_season:
+      raise Exception('End season should be not be earlier than the start season') 
+
+        
+    start_season = int(str(start_season) + str(start_season))
+    end_season = int(str(end_season) + str(end_season))
+    df = df.query('seasonId >= @start_season and seasonId <= @end_season')
+    
+    
+    if regular == True and playoffs == True:
+        # plot both regular attendance and playoff attendance if both are requested
+        
+        plot1 = alt.Chart(df, title="Regular Attendance").mark_bar().encode(
+            alt.X('seasonId:N', title="Seaon"),
+            alt.Y('regular:Q', title = 'Regular Attendance'),
+     
+          
+        )
+        
+        plot2 = alt.Chart(df, title="Playoff Attendance").mark_bar().encode(
+            alt.X('seasonId:N', title="Seaon"),
+            alt.Y('playoff:Q', title = 'Playoff Attendance'),
+        
+        )
+        
+        plot = (plot1 | plot2)
+            
+    elif regular == True:
+        # plot regular attendance if it is requested only
+        
+        plot = alt.Chart(df, title="Regular Attendance").mark_bar().encode(
+            alt.X('seasonId:N', title="Seaon"),
+            alt.Y('regular:Q', title = 'Regular Attendance')
+          
+        )
+    elif playoffs == True:
+       # plot playoff attendance if it is requested only     
+        plot = alt.Chart(df, title="Playoff Attendance").mark_bar().encode(
+            alt.X('seasonId:N', title="Seaon"),
+            alt.Y('playoff:Q', title = 'Playoff Attendance')
+        )
+    else:
+        raise Exception('Must select at least one attendance type')
+    return plot  
 
 
 def team_stats(start_season= "20192020", end_season="20192020"):
