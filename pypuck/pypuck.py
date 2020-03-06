@@ -144,20 +144,20 @@ def team_stats(start_season= "20192020", end_season="20192020"):
     arguments = 'cayenneExp=gameTypeId=2' +\
           f' and seasonId<={end_season}' +\
           f' and seasonId>={start_season}'
-    
+
+    # Check that the arguments are of the correct type (i.e. str)
     helpers.check_argument_type(start_season, 'start_season', str)
     helpers.check_argument_type(end_season, 'end_season', str)
 
+    # Make the api request
     page = requests.get(base_url + arguments)
 
     # Check the response code is valid - i.e. the API didn't fail
     helpers.check_response_code(page.status_code)
 
     df = pd.DataFrame(page.json()['data'])
-    if df.empty == True:
-      print("Invalid Inputs. Season_start should be later than Season end. Valid seasons are from 1917 to 2020. Enter years in Bi-Annual format of 'YYYYYYYY'")
-    else:
-      return df
+
+    return df
 
 
 
