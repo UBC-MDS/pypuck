@@ -66,15 +66,14 @@ def test_player_stats_bad(start_date='2020-02-28', end_date='2019-10-02'):
 
 def test_team_stats(start_season='20192020', end_season='20192020'):
 	"""
-	Test function to check proper inputs and returns.
+	Function to test that the team_stats function appropriately returns a pd.DataFrame object and that the resulting dataframe has the queried data. 
 
 	Keyword Arguments:
-		start_date {str} -- start_date to query (default: {'20192020'})
-		end_date {str} -- end_date to query (default: {'20192020'})
+		start_season {str} -- start_season to query (default: {'20192020'})
+		end_season {str} -- end_season to query (default: {'20192020'})
 
 	Raises:
-		TypeError: A message if return type is wrong (wrong data type).
-		ValueError: A message if return value is wrong (not enough data).
+		ValueError: A message if return value is wrong (empty return).
 	
 	Function to test that the team_stats function appropriately returns a pd.DataFrame object and that the resulting dataframe has the queried data.
 
@@ -99,5 +98,4 @@ def test_team_stats(start_season='20192020', end_season='20192020'):
 	# test for the output for default is year 20192020
 	df = team_stats()
 	assert int(df['seasonId'].mean()) == 20192020, "A function call with default arguments should return current season"
-
 
