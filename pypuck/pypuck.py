@@ -109,7 +109,7 @@ def attendance(regular=True, playoffs=True, season=None):
 
 
 
-def team_stats(start_season=None, end_season=None):
+def team_stats(start_season= "20192020", end_season="20192020"):
     """
     Get team season stats specified by start year or start year and end year.
     If no year is specified then the year 2019-2020 is default.
@@ -139,7 +139,26 @@ def team_stats(start_season=None, end_season=None):
     Edmonton Oilers |  34  |   23   |  5 |   73   | ...
     ------------------------------------------------
     """
-    pass
+
+    base_url = 'https://api.nhle.com/stats/rest/en/team/summary?'
+    arguments = 'cayenneExp=gameTypeId=2' +\
+          f' and seasonId<={end_season}' +\
+          f' and seasonId>={start_season}'
+
+    # Check that the arguments are of the correct type (i.e. str)
+    helpers.check_argument_type(start_season, 'start_season', str)
+    helpers.check_argument_type(end_season, 'end_season', str)
+
+    # Make the api request
+    page = requests.get(base_url + arguments)
+
+    # Check the response code is valid - i.e. the API didn't fail
+    helpers.check_response_code(page.status_code)
+
+    df = pd.DataFrame(page.json()['data'])
+
+    return df
+
 
 
 def draft_pick(pick_number = 1, round_number=None, year=None):
