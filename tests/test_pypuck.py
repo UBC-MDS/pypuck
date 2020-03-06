@@ -131,6 +131,40 @@ def test_error_draft(pick_number = 'BC', round_number = 'Van', year = 2020):
     except:
         pass
 
+def test_default_draft(pick_number = 1):
+    """
+    Test function to check that draft_pick function returns correct information with default parameters.
+
+    Keyword Arguments:
+        pick_number {int} -- default pick_number to query (default: {'1'})
+    """
+    draft = pypuck.draft_pick(pick_number = 1)
+    if draft.shape != (554,5):
+        raise ValueError('draft_pick() returned errorness information about specified parameters')
+
+def test_year_pick_draft(pick_number = 1, year = 2010)        
+    """
+    Test function to check that draft_pick function returns correct information with default parameters.
+
+    Keyword Arguments:
+        pick_number {int} -- default pick_number to query (default: {'1'})
+        year {int} -- year to query (default: {2010})
+    """
+    draft = pypuck.draft_pick(pick_number = 1, year = 2010)
+    if draft.shape != (7,5):
+        raise ValueError('draft_pick() returned errorness information about specified parameters')
+
+def test_round_pick_draft(pick_number = 1, year = 2010)        
+    """
+    Test function to check that draft_pick function returns correct information with default parameters.
+
+    Keyword Arguments:
+        pick_number {int} -- default pick_number to query (default: {'1'})
+        round_number {int} -- round_number to query (default: {'7'})
+    """
+    draft = pypuck.draft_pick(pick_number = 1, round_number=7)
+    if draft.shape != (50,5):
+        raise ValueError('draft_pick() returned errorness information about specified parameters')
 
 def test_attendance_good():
     """
