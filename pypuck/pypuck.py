@@ -139,7 +139,7 @@ def team_stats(start_season= "20192020", end_season="20192020"):
     Edmonton Oilers |  34  |   23   |  5 |   73   | ...
     ------------------------------------------------
     """
-    
+
     base_url = 'https://api.nhle.com/stats/rest/en/team/summary?'
     arguments = 'cayenneExp=gameTypeId=2' +\
           f' and seasonId<={end_season}' +\
@@ -157,7 +157,7 @@ def team_stats(start_season= "20192020", end_season="20192020"):
     if df.empty == True:
       print("Invalid Inputs. Season_start should be later than Season end. Valid seasons are from 1917 to 2020. Enter years in Bi-Annual format of 'YYYYYYYY'")
     else:
-      return df.columns
+      return df
 
 
 
