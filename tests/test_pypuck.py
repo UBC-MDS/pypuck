@@ -62,11 +62,10 @@ def test_player_stats_bad(start_date='2020-02-28', end_date='2019-10-02'):
 		# This error is expected
 		pass
     
-
-
-def test_team_stats(start_season='20192020', end_season='20192020'):
+def test_team_stats():
 	"""
-	Function to test that the team_stats function appropriately returns a pd.DataFrame object and that the resulting dataframe has the queried data. 
+	Function to test that the team_stats function appropriately returns a pd.DataFrame object
+  and that the resulting dataframe has the queried data. 
 
 	Keyword Arguments:
 		start_season {str} -- start_season to query (default: {'20192020'})
@@ -74,16 +73,6 @@ def test_team_stats(start_season='20192020', end_season='20192020'):
 
 	Raises:
 		ValueError: A message if return value is wrong (empty return).
-	
-	Function to test that the team_stats function appropriately returns a pd.DataFrame object and that the resulting dataframe has the queried data.
-
-	Keyword Arguments:
-		start_season {str} -- start_season to query (default: {'20192020'})
-		end_season {str} -- end_season to query (default: {'20192020'})
-	
-	Raises:
-			ValueError: A message if return value is wrong (empty return).
-
 	"""
 	# Test for various end_dates
 	df = pypuck.team_stats(start_season='19992000',end_season='20102011')
@@ -92,10 +81,49 @@ def test_team_stats(start_season='20192020', end_season='20192020'):
 	
 	# Test for number of columns and rows.
 	df = pypuck.team_stats(start_season='19531954',end_season='19581959')
-	if df.shape[0] != 36 and df.shape[1] != 24:
-		raise ValueError("invalid returns")
+	if len(df) != 36:
+		raise ValueError("Dataframe is wrong length - check data return")
 	
 	# test for the output for default is year 20192020
 	df = team_stats()
 	assert int(df['seasonId'].mean()) == 20192020, "A function call with default arguments should return current season"
 
+  
+def check_draft(pick_number = 1, round_number = 2, year = 2000):
+	"""
+	Test function to check proper inputs and returns.
+
+	Keyword Arguments:
+		pick_number {int} -- pick_number to query (default: {1})
+		round_number {int} -- round_number to query (default: {2})
+		year {int} -- year to query (default: {2020})
+
+	Raises:
+		ValueError: A message if return value is wrong (not enough data).
+	"""
+    if len(pypuck.draft_pick(pick_number, round_number, year)) != 1 :
+        raise ValueError('draft_pick() returned incorrect information, there can`t be more than 1 person for specified parameters')
+    if len(pypuck.draft_pick(pick_number, round_number, year)) == 0 :
+        try: 
+            df = pypuck.draft_check(pick_number, round_number, year)
+        except:
+            pass
+
+def check_drafted_person():
+    draft = pypuck.draft_pick(pick_number = 1, round_number=2, year=2000)
+    if draft['playerName'] != 'Ilya Nikulin':
+        raise ValueError('draft_pick() returned errorness information about specified parameters')
+
+def check_error_draft(pick_number = 'BC', round_number = 'Van', year = 2020): 
+	"""
+	Test function to check that it handles errorness input in draft_pick function.
+
+	Keyword Arguments:
+		pick_number {str} -- errorness pick_number to query (default: {'BC'})
+		round_number {str} -- errorness round_number to query (default: {'Van'})
+		year {int} -- year out of range to query (default: {2020})
+	"""
+    try:
+        df = pypuck.draft_check(pick_number, round_number, year)
+    except:
+        pass
