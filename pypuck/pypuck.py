@@ -85,8 +85,9 @@ def attendance(regular=True, playoffs=True, start_season=None, end_season=None):
     Parameters
     ----------
     regular : boolean (default True).
-    
+        Whether to query seasonal regular season attendance data.
     playoffs : boolean (default True)
+        Whether to query seasonal playoff attendance data.
 
     start_season : str (default None)
       The stat start date string in 'YYYY' format.
