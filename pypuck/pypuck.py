@@ -113,10 +113,10 @@ def attendance(regular=True, playoffs=True, start_season=None, end_season=None):
     # Make the API request
     page = requests.get(url)
 
-    df = pd.DataFrame(page.json()['data']).sort_values(by=['seasonId'])
-
     # Check the response code is valid - i.e. the API didn't fail
     helpers.check_response_code(page.status_code)
+    
+    df = pd.DataFrame(page.json()['data']).sort_values(by=['seasonId'])
 
     df= df.fillna(0)
     df.playoffAttendance = df.playoffAttendance.astype(int)
