@@ -157,7 +157,7 @@ def team_stats(start_season= "20192020", end_season="20192020"):
     if df.empty == True:
       print("Invalid Inputs. Season_start should be later than Season end. Valid seasons are from 1917 to 2020. Enter years in Bi-Annual format of 'YYYYYYYY'")
     else:
-      return df
+      return df.columns
 
 
 

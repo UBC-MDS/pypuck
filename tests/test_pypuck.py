@@ -64,7 +64,7 @@ def test_player_stats_bad(start_date='2020-02-28', end_date='2019-10-02'):
     
 
 
-def test_team_stats_good(start_season='20192020', end_season='20192020'):
+def test_team_stats(start_season='20192020', end_season='20192020'):
 	"""
 	Test function to check proper inputs and returns.
 
@@ -88,11 +88,16 @@ def test_team_stats_good(start_season='20192020', end_season='20192020'):
 	"""
 	# Test for various end_dates
 	df = pypuck.team_stats(start_season='19992000',end_season='20102011')
-	if df.empty== True:
+	if df.empty == True:
 		raise TypeError("invalid Inputs, Season_start should be later than Season end. Valid seasons are from 1917 to 2020")
 	
-	# Test for number of columns and rows
+	# Test for number of columns and rows.
 	df = pypuck.team_stats(start_season='19531954',end_season='19581959')
 	if df.shape[0] != 36 and df.shape[1] != 24:
 		raise ValueError("invalid returns")
+	
+	# test for the output for default is year 20192020
+	df = team_stats()
+	assert int(df['seasonId'].mean()) == 20192020, "A function call with default arguments should return current season"
+
 
