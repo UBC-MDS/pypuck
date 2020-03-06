@@ -135,23 +135,18 @@ def test_attendance_good():
 	"""
 	Test function to check proper inputs and returns.
 
-	Keyword Arguments:
-		pick_number {int} -- pick_number to query (default: {1})
-		round_number {int} -- round_number to query (default: {2})
-		year {int} -- year to query (default: {2020})
-
 	Raises:
-		ValueError: A message if return value is wrong (not enough data).
+		ValueError: A message if input/output is not proper.
 	"""
 
 
-	a = attendance(start_season=None, end_season=2010)
+	a = attendance(regular=True, playoffs=False, start_season=None, end_season=2010)
 	assert isinstance(a, alt.vegalite.v3.api.HConcatChart), "The return should include two subplots "
 
 	a = attendance(start_season=2000, end_season=None)
 	assert isinstance(a, alt.vegalite.v3.api.HConcatChart), "The return should include two subplots "
 
-	a = attendance(start_season=1980, end_season=2001)
+	a = attendance(regular=True, playoffs=False, start_season=1980, end_season=2001)
 	assert isinstance(a, alt.vegalite.v3.api.HConcatChart), "The return should include two subplots "
 
 	a = attendance(regular=True, playoffs=False, start_season=1980, end_season=2001)
@@ -165,14 +160,10 @@ def test_attendance_bad():
 	"""
 	Test function to check proper inputs and returns.
 
-	Keyword Arguments:
-		pick_number {int} -- pick_number to query (default: {1})
-		round_number {int} -- round_number to query (default: {2})
-		year {int} -- year to query (default: {2020})
-
 	Raises:
-		ValueError: A message if return value is wrong (not enough data).
+		ValueError: A message if input/ouput is not proper.
 	"""
+
 
 	with pytest.raises(Exception) as e:
         assert attendance(start_season=2011, end_season=2010)
