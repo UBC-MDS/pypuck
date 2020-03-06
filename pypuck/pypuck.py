@@ -144,21 +144,21 @@ def team_stats(start_season= "20192020", end_season="20192020"):
     arguments = 'cayenneExp=gameTypeId=2' +\
           f' and seasonId<={end_season}' +\
           f' and seasonId>={start_season}'
-    if str.isdecimal(start_season) == False:
-      print("Invalid Input. Enter start_season in Bi-Annual format. 'YYYYYYYY'")
-      return
-    if str.isdecimal(end_season) == False:
-      print("Invalid Input. Enter end_season in Bi-Annual format. 'YYYYYYYY'")
-      return
-    # print(base_url + arguments)
+    
+    helpers.check_argument_type(start_season, 'start_season', str)
+    helpers.check_argument_type(end_season, 'end_season', str)
+
     page = requests.get(base_url + arguments)
-    #print(page.url)
+
+    # Check the response code is valid - i.e. the API didn't fail
+    helpers.check_response_code(page.status_code)
+
     df = pd.DataFrame(page.json()['data'])
     if df.empty == True:
       print("Invalid Inputs. Season_start should be later than Season end. Valid seasons are from 1917 to 2020. Enter years in Bi-Annual format of 'YYYYYYYY'")
     else:
-      print(df.head())
-    return df
+      return df
+
 
 
 def draft_pick(pick_number = 1, round_number=None, year=None):

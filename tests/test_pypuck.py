@@ -75,9 +75,24 @@ def test_team_stats_good(start_season='20192020', end_season='20192020'):
 	Raises:
 		TypeError: A message if return type is wrong (wrong data type).
 		ValueError: A message if return value is wrong (not enough data).
+	
+	Function to test that the team_stats function appropriately returns a pd.DataFrame object and that the resulting dataframe has the queried data.
+
+	Keyword Arguments:
+		start_season {str} -- start_season to query (default: {'20192020'})
+		end_season {str} -- end_season to query (default: {'20192020'})
+	
+	Raises:
+			ValueError: A message if return value is wrong (empty return).
+
 	"""
 	# Test for various end_dates
 	df = pypuck.team_stats(start_season='19992000',end_season='20102011')
 	if df.empty== True:
 		raise TypeError("invalid Inputs, Season_start should be later than Season end. Valid seasons are from 1917 to 2020")
+	
+	# Test for number of columns and rows
+	df = pypuck.team_stats(start_season='19531954',end_season='19581959')
+	if df.shape[0] != 36 and df.shape[1] != 24:
+		raise ValueError("invalid returns")
 
