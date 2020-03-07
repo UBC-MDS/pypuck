@@ -142,7 +142,7 @@ def test_default_draft(pick_number = 1):
     if draft.shape != (554,5):
         raise ValueError('draft_pick() returned errorness information about specified parameters')
 
-def test_year_pick_draft(pick_number = 1, year = 2010)        
+def test_year_pick_draft(pick_number = 1, year = 2010):
     """
     Test function to check that draft_pick function returns correct information with default parameters.
 
@@ -154,7 +154,7 @@ def test_year_pick_draft(pick_number = 1, year = 2010)
     if draft.shape != (7,5):
         raise ValueError('draft_pick() returned errorness information about specified parameters')
 
-def test_round_pick_draft(pick_number = 1, round_number = 7)        
+def test_round_pick_draft(pick_number = 1, round_number = 7):
     """
     Test function to check that draft_pick function returns correct information with default parameters.
 
