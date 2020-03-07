@@ -31,7 +31,7 @@ pip install -i https://test.pypi.org/simple/ pypuck
 	- The `team_stats()` function makes an API call to the team summary endpoint on the NHL.com API. The function returns team seasonal stats for given seasons sorted by total team points.
 - `draft_pick(pick_number=None, round_number=None, year=None)`:
 	- The `draft_pick(pick_number=None, round_number=None, year=None)` function makes an API call to the drafts summary on the NHL.com API. The function returns information about draft picks for the specified arguments and stores them in a pandas data frame. 
-- `attendance(regular=True, playoffs=True, season=None)`:
+- `attendance(regular=True, playoffs=True, start_season=None, end_season=None)`:
 	- The `attendance()` function makes an query to the Attendance API to get the NHL’s seasonal and playoff attendance numbers. The function displays attendance numbers in an Altair chart.
 
 

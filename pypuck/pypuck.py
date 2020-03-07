@@ -97,7 +97,7 @@ def attendance(regular=True, playoffs=True, start_season=None, end_season=None):
 
     start_season : str (default None)
       The stat start date string in 'YYYY' format.
-    end_seaon : str (default None)
+    end_season : str (default None)
       The stat end date string in 'YYYY' format.
   
     Returns
@@ -130,7 +130,7 @@ def attendance(regular=True, playoffs=True, start_season=None, end_season=None):
     df = df.rename(columns={'regularAttendance': 'regular',
                        'playoffAttendance': 'playoff'})
   
-    # set start seaon and end season to default value if none
+    # set start season and end season to default value if none
     if pd.isnull(start_season):
         start_season = 1975    
 
@@ -160,14 +160,14 @@ def attendance(regular=True, playoffs=True, start_season=None, end_season=None):
         # plot both regular attendance and playoff attendance if both are requested
         
         plot1 = alt.Chart(df, title="Regular Attendance").mark_bar().encode(
-            alt.X('seasonId:N', title="Seaon"),
+            alt.X('seasonId:N', title="Season"),
             alt.Y('regular:Q', title = 'Regular Attendance'),
      
           
         )
         
         plot2 = alt.Chart(df, title="Playoff Attendance").mark_bar().encode(
-            alt.X('seasonId:N', title="Seaon"),
+            alt.X('seasonId:N', title="Season"),
             alt.Y('playoff:Q', title = 'Playoff Attendance'),
         
         )
@@ -178,14 +178,14 @@ def attendance(regular=True, playoffs=True, start_season=None, end_season=None):
         # plot regular attendance if it is requested only
         
         plot = alt.Chart(df, title="Regular Attendance").mark_bar().encode(
-            alt.X('seasonId:N', title="Seaon"),
+            alt.X('seasonId:N', title="Season"),
             alt.Y('regular:Q', title = 'Regular Attendance')
           
         )
     elif playoffs == True:
        # plot playoff attendance if it is requested only     
         plot = alt.Chart(df, title="Playoff Attendance").mark_bar().encode(
-            alt.X('seasonId:N', title="Seaon"),
+            alt.X('seasonId:N', title="Season"),
             alt.Y('playoff:Q', title = 'Playoff Attendance')
         )
     else:

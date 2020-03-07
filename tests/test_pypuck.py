@@ -139,21 +139,21 @@ def test_attendance_good():
     Raises:
         ValueError: A message if input/output is not proper.
     """
-
+    # check if the number of plots returned is correct
     a = pypuck.attendance(regular=True, playoffs=False, start_season=None, end_season=2010)
-    assert (a._schema['$ref'] == '#/definitions/TopLevelUnitSpec'), "The return be only one plot"
+    assert (a._schema['$ref'] == '#/definitions/TopLevelUnitSpec'), "The return should be only one plot"
 
     a = pypuck.attendance(start_season=2000, end_season=None)
     assert (a._schema['$ref'] == '#/definitions/TopLevelHConcatSpec'), "The return should include two subplots"
 
     a = pypuck.attendance(regular=True, playoffs=False, start_season=1980, end_season=2001)
-    assert (a._schema['$ref'] == '#/definitions/TopLevelUnitSpec'), "The return be only one plot"
+    assert (a._schema['$ref'] == '#/definitions/TopLevelUnitSpec'), "The return should  be only one plot"
 
     a = pypuck.attendance(regular=True, playoffs=False, start_season=1980, end_season=2001)
-    assert (a._schema['$ref'] == '#/definitions/TopLevelUnitSpec'), "The return be only one plot"
+    assert (a._schema['$ref'] == '#/definitions/TopLevelUnitSpec'), "The return should be only one plot"
 
     a = pypuck.attendance(regular=False, playoffs=True, start_season=1980, end_season=2001)
-    assert (a._schema['$ref'] == '#/definitions/TopLevelUnitSpec'), "The return be only one plot"
+    assert (a._schema['$ref'] == '#/definitions/TopLevelUnitSpec'), "The return should be only one plot"
 
 
 def test_attendance_bad():
@@ -163,31 +163,27 @@ def test_attendance_bad():
     Raises:
         ValueError: A message if input/ouput is not proper.
     """
-
+    # check whether an error will be raised if end season is earlier than start season.
     with pytest.raises(Exception) as e:
         assert pypuck.attendance(start_season=2011, end_season=2010)
     assert str(e.value) == 'End season should be not be earlier than the start season'
-
+    # check whether an error will be raised if start season is out of range.
     with pytest.raises(Exception) as e:
         assert pypuck.attendance(start_season=1951, end_season=2010)
     assert str(e.value) == "Start season is out of range"
-
+    # check whether an error will be raised if end season is out of range.
     with pytest.raises(Exception) as e:
         assert pypuck.attendance(start_season=1991, end_season=2021)
     assert str(e.value) == "End season is out of range"
-
+    # check whether an error will be raised if both regular and playoffs are set to False
     with pytest.raises(Exception) as e:
         assert pypuck.attendance(regular=False, playoffs=False, start_season=1980, end_season=2001)
     assert str(e.value) == "Must select at least one attendance type"
-
+    # check whether an error will be raised if playoffs is not boolean value.
     with pytest.raises(Exception) as e:
         assert pypuck.attendance(regular=True, playoffs=2, start_season=1980, end_season=2001)
     assert str(e.value) == "Expecting <class 'bool'> got <class 'int'> for playoffs"
-
-    with pytest.raises(Exception) as e:
-        assert pypuck.attendance(regular=2, playoffs=2, start_season=1980, end_season=2001)
-    assert str(e.value) == "Expecting <class 'bool'> got <class 'int'> for regular"
-
+    # check an error will be raised if regular is not boolean value
     with pytest.raises(Exception) as e:
         assert pypuck.attendance(regular=2, playoffs=True, start_season=1980, end_season=2001)
     assert str(e.value) == "Expecting <class 'bool'> got <class 'int'> for regular"
