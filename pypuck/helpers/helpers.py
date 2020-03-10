@@ -99,5 +99,5 @@ def check_date(start_date, end_date):
     e_date = datetime.strptime(start_date, '%Y-%m-%d')
     l_date = datetime.strptime(end_date, '%Y-%m-%d')
     if e_date > l_date:
-        raise ValueError("Invalid date range - \
-                            end_date earlier than start_date")
+        raise ValueError("Invalid date range - "
+                         "end_date earlier than start_date")
