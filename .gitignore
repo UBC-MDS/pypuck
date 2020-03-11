@@ -139,5 +139,5 @@ dmypy.json
 **.Rhistory
 
 # VS Code
-**.DS_Store
+**.DS_Store/
 **.vscode/
