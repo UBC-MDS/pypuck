@@ -43,9 +43,9 @@ There are a variety of nhl themed packages created for different purposes. Some 
 Python 3.7 and Python packages:
 | Package                                                  	| Minimum Supported Version 	|
 |----------------------------------------------------------	|---------------------------	|
-| [pandas]('https://pandas.pydata.org/')                   	| 1.0.1                     	|
-| [requests]('https://requests.readthedocs.io/en/latest/') 	| 2.23.0                    	|
-| [altair]('https://github.com/altair-viz/altair')         	| 3.0.1                     	|
+| [pandas](https://pandas.pydata.org/)                      | 1.0.1                     	|
+| [requests](https://requests.readthedocs.io/en/latest/)    | 2.23.0                    	|
+| [altair](https://github.com/altair-viz/altair)            | 3.0.1                     	|
 
 
 ### Documentation
