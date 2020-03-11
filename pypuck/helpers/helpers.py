@@ -36,22 +36,6 @@ def check_date_format(date_):
         raise ValueError(f"Incorrect date format {date_}, requires YYYY-MM-DD")
 
 
-def check_year_format(year):
-    """
-    Checks that a year string is in the correct format: "YYYY".
-
-    Arguments:
-        year {str} -- a string of a year in format YYYY.
-
-    Raises:
-        ValueError: A message showing the incorrect year format.
-    """
-    try:
-        datetime.strptime(str(year), '%Y')
-    except ValueError:
-        raise ValueError(f"Incorrect year format {year}, requires YYYY")
-
-
 def check_response_code(response):
     """
     Checks that the API response code is OK.

@@ -1,8 +1,8 @@
 [tool.poetry]
 name = "pypuck"
-version = "0.2.1"
+version = "0.2.2"
 description = "Functions to access the publicly available but uncodumented NHL.com API"
-authors = ["jarvis Nederlof <jarvisnederlof@gmail.com>"]
+authors = ["Jarvis Nederlof <jarvisnederlof@gmail.com>", "Xugang Zhong <chuusankirk@hotmail.com>", "Polina Romanchenko <romanchenko.p96@gmail.com>", "Manish Joshi <Manishpjoshi@gmail.com>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
