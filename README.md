@@ -40,14 +40,50 @@ There are a variety of nhl themed packages created for different purposes. Some 
 
 
 ### Dependencies
-Python 3.7.4 and Python packages:
-- requests==2.22.0
-- pandas==0.25.2
-- numpy==1.17.2
+Python 3.7 and Python packages:
+| Package                                                  	| Minimum Supported Version 	|
+|----------------------------------------------------------	|---------------------------	|
+| [pandas]('https://pandas.pydata.org/')                   	| 1.0.1                     	|
+| [requests]('https://requests.readthedocs.io/en/latest/') 	| 2.23.0                    	|
+| [altair]('https://github.com/altair-viz/altair')         	| 3.0.1                     	|
 
 
 ### Documentation
 The official documentation is hosted on Read the Docs: <https://pypuck.readthedocs.io/en/latest/>
+
+### Usage Examples
+
+```python
+from pypuck import pypuck
+
+pypuck.player_stats(start_date='2019-10-02', end_date='2020-03-10')
+```
+
+![player_stats](img/player_stats.png)
+
+```python
+from pypuck import pypuck
+
+pypuck.team_stats(start_season='19992000', end_season='20102011')
+```
+
+![team_stats](img/team_stats.png)
+
+```python
+from pypuck import pypuck
+
+pypuck.draft_pick(pick_number=1, round_number=None, year=2015)
+```
+
+![draft](img/draft.png)
+
+```python
+from pypuck import pypuck
+
+pypuck.attendance(regular=True, playoffs=True, start_season=2010, end_season=2019)
+```
+
+![attendance](img/attendance.png)
 
 ### Credits
 This package was created with Cookiecutter and the UBC-MDS/cookiecutter-ubc-mds project template, modified from the [pyOpenSci/cookiecutter-pyopensci](https://github.com/pyOpenSci/cookiecutter-pyopensci) project template and the [audreyr/cookiecutter-pypackage](https://github.com/audreyr/cookiecutter-pypackage).
