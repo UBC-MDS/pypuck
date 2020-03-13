@@ -21,7 +21,7 @@ jobs:
         POETRY_VIRTUALENVS_CREATE: false
       run: |
         pip install poetry
-        poetry install
+        poetry install --no-root
     - name: Check style
       run: poetry run flake8 --exclude=docs*
     - name: Test with pytest
