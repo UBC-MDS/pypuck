@@ -20,6 +20,26 @@ Example:
 from datetime import datetime
 
 
+def check_season_format(season):
+    """
+    Checks that a season string is in the correct format: "YYYYYYYY.
+    Arguments:
+        year {str} -- a string of a year in format YYYYYYYY.
+    Raises:
+        ValueError: A message showing the incorrect year format.
+    """
+    season_start, season_end = season[:4], season[-4:]
+    for _season in [season_start, season_end]:
+        try:
+            datetime.strptime(str(_season), '%Y')
+        except ValueError:
+            raise ValueError(f"Incorrect season format {season}, requires "
+                             "valid YYYYYYYY")
+    if (int(season_end) - int(season_start)) not in [0, 1]:
+        raise ValueError(f"Incorrect season range {season}, requires "
+                         "valid season with back to back years")
+
+
 def check_date_format(date_):
     """
     Checks that a date string is in the correct format: "YYYY-MM-DD".
@@ -85,3 +105,20 @@ def check_date(start_date, end_date):
     if e_date > l_date:
         raise ValueError("Invalid date range - "
                          "end_date earlier than start_date")
+
+
+def check_seasons(start_season, end_season):
+    """
+    Checks that the end_season is later than the start_season.
+
+    Arguments:
+        start_season {str} -- The start season formatted as a string
+        end_season {str} -- The end season formatted as a string
+
+    Raises:
+        ValueError: A message indicating the
+        start_season is >= than the end_season.
+    """
+    if int(start_season[-4:]) > int(end_season[-4:]):
+        raise ValueError("Invalid date range - "
+                         "end_season earlier than start_season")

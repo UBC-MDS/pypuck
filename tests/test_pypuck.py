@@ -67,21 +67,11 @@ def test_team_stats():
     """
     Function to test that the team_stats function appropriately
     returns a pd.DataFrame object and that the resulting dataframe
-     has the queried data.
-
-    Keyword Arguments:
-        start_season {str} -- start_season to query (default: {'20192020'})
-        end_season {str} -- end_season to query (default: {'20192020'})
+    has the queried data.
 
     Raises:
         ValueError: A message if return value is wrong (empty return).
     """
-    # Test for various end_dates
-    df = pypuck.team_stats(start_season='19992000', end_season='20102011')
-    if df.empty:
-        raise TypeError("invalid Inputs, Season_start should be later than Season end. \
-                           Valid seasons are from 1917 to 2020")
-
     # Test for number of columns and rows.
     df = pypuck.team_stats(start_season='19531954', end_season='19581959')
     if len(df) != 36:
@@ -91,6 +81,68 @@ def test_team_stats():
     df = pypuck.team_stats()
     assert int(df['seasonId'].mean()) == 20192020, (
         "A function call with default arguments should return current season")
+
+
+def test_team_stats_bad():
+    """
+    Test function to check that function gracefully hanldes errors
+    when it is supposed to.
+    """
+    # End season earlier than start season
+    start_season, end_season = '20192020', '20182019'
+    with pytest.raises(Exception) as e:
+        assert pypuck.team_stats(start_season, end_season)
+    assert str(e.value) == ("Invalid date range - "
+                            "end_season earlier than start_season")
+
+    # Change start_season to bad type
+    start_season, end_season = 2019, '20182019'
+    with pytest.raises(Exception) as e:
+        assert pypuck.team_stats(start_season, end_season)
+    assert str(e.value) == ("Expecting <class 'str'> got "
+                            "<class 'int'> for start_season")
+
+    # Change end_season to bad type
+    start_season, end_season = '20192020', 20192020
+    with pytest.raises(Exception) as e:
+        assert pypuck.team_stats(start_season, end_season)
+    assert str(e.value) == ("Expecting <class 'str'> got "
+                            "<class 'int'> for end_season")
+
+    # Change start_season to invalid date
+    start_season, end_season = '20182020', '20192020'
+    with pytest.raises(Exception) as e:
+        assert pypuck.team_stats(start_season, end_season)
+    assert str(e.value) == (f"Incorrect season range {start_season}, requires "
+                            "valid season with back to back years")
+
+    # Change end_season to invalid date
+    start_season, end_season = '20182019', '20182020'
+    with pytest.raises(Exception) as e:
+        assert pypuck.team_stats(start_season, end_season)
+    assert str(e.value) == (f"Incorrect season range {end_season}, requires "
+                            "valid season with back to back years")
+
+    # Change start_season to invalid date
+    start_season, end_season = '2018CCCC', '20192020'
+    with pytest.raises(Exception) as e:
+        assert pypuck.team_stats(start_season, end_season)
+    assert str(e.value) == (f"Incorrect season format {start_season}, requires"
+                            " valid YYYYYYYY")
+
+    # Change end_season to invalid date
+    start_season, end_season = '20182019', '20192O2O'
+    with pytest.raises(Exception) as e:
+        assert pypuck.team_stats(start_season, end_season)
+    assert str(e.value) == (f"Incorrect season format {end_season}, requires"
+                            " valid YYYYYYYY")
+
+    # Change start_season to invalid date
+    start_season, end_season = '1999200', '20192020'
+    with pytest.raises(Exception) as e:
+        assert pypuck.team_stats(start_season, end_season)
+    assert str(e.value) == (f"Incorrect season range {start_season}, requires"
+                            " valid season with back to back years")
 
 
 def test_draft(pick_number=1, round_number=2, year=2000):
@@ -134,9 +186,30 @@ def test_error_draft(pick_number='BC', round_number='Van', year=2020):
             erroneoss round_number to query (default: {'Van'})
         year {int} -- year out of range to query (default: {2020})
     """
+    # Test that the pick number type is correct
     with pytest.raises(Exception) as e:
         assert pypuck.draft_pick(pick_number, round_number, year)
-    assert str(e.value) == "Number of pick is out of avaliable range"
+    assert str(e.value) == ("Expecting <class 'int'> got <class 'str'> "
+                            "for pick_number")
+    # Test that the round number type is correct
+    with pytest.raises(Exception) as e:
+        pick_number = 1
+        assert pypuck.draft_pick(pick_number, round_number, year)
+    assert str(e.value) == ("Expecting <class 'int'> got <class 'str'> "
+                            "for round_number")
+    # Test that the round number can't be 0.
+    with pytest.raises(Exception) as e:
+        pick_number = 1
+        round_number = 0
+        assert pypuck.draft_pick(pick_number, round_number, year)
+    assert str(e.value) == "Number of round is out of avaliable range"
+    # Test that the year is correct type
+    with pytest.raises(Exception) as e:
+        pick_number = 1
+        round_number = 1
+        year = '2020'
+        assert pypuck.draft_pick(pick_number, round_number, year)
+    assert str(e.value) == "Expecting <class 'int'> got <class 'str'> for year"
 
 
 def test_default_draft(pick_number=1):
