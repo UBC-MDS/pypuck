@@ -17,8 +17,14 @@ This project was created as a part of [UBC MDS program](https://masterdatascienc
 
 ### Installation:
 
+To install the package without also installing any package dependencies run:
 ```
 pip install -i https://test.pypi.org/simple/ pypuck
+```
+
+To install the package, including installing all package dependencies, run:
+```
+pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple pypuck
 ```
 
 ### Features
