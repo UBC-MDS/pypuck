@@ -28,6 +28,9 @@ def player_stats(start_date=None, end_date=None):
     The function will return the current season's stats if the arguments
     are blank (i.e. left as None).
 
+    You can find the glossary pertaining to the returned
+    columns by going to http://www.nhl.com/stats/glossary.
+
     Parameters
     ----------
     start_date : str (default None).
@@ -198,12 +201,16 @@ def team_stats(start_season="20192020", end_season="20192020"):
     The valid seasons range from the 1917 season until the
     current season.
 
+    You can find the glossary pertaining to the returned
+    columns by going to http://www.nhl.com/stats/glossary.
+
     Parameters
     ----------
       start_season : str
         The stat start year string in 'YYYYYYYY' format.
       end_season : str
         The stat end year string in 'YYYYYYYY' format.
+    
 
     Returns
     -------
