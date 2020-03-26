@@ -22,6 +22,9 @@ def player_stats(start_date=None, end_date=None):
     the players stats for the current season. The stats to be
     returned are restricted to the regular season.
 
+    The valid dates range from the start of the 1917 season until the
+    current day.
+
     The function will return the current season's stats if the arguments
     are blank (i.e. left as None).
 
@@ -41,10 +44,10 @@ def player_stats(start_date=None, end_date=None):
     --------
     >>> from pypuck import pypuck
     >>> pypuck.player_stats(start_date='2019-10-02', end_date='2020-02-28')
-    PlayerName     | Goals | Assists | Points | ...
-    -------------------------------------------
-    Connor Mcdavid |   35  |    53   |   88   | ...
-    -------------------------------------------
+    assists | evGoals | evPoints | faceoffWinPct | ...
+    --------------------------------------------------
+       67   |    27   |    66    |    0.51641    | ...
+    --------------------------------------------------
     ...
     """
     # Set dates to current season if none
@@ -192,6 +195,9 @@ def team_stats(start_season="20192020", end_season="20192020"):
     If an end year is specified then the start year is also to be provided.
     year is to be provided in a 2 year format of YYYYYYYY.
 
+    The valid seasons range from the 1917 season until the
+    current season.
+
     Parameters
     ----------
       start_season : str
@@ -210,20 +216,23 @@ def team_stats(start_season="20192020", end_season="20192020"):
     >>> start_season = '19801981'
     >>> end_season = '19891990'
     >>> pypuck.team_stats(start_season=start_season, end_season=end_season)
-    Team            | Wins | Losses | OT | Points | ...
-    ------------------------------------------------
-    Edmonton Oilers |  34  |   23   |  5 |   73   | ...
-    ------------------------------------------------
+    faceoffWinPct | gamesPlayed | goalsAgainst | goalsAgainstPerGame | ...
+    -----------------------------------------------------------------------
+       0.481361   |      82     |     251      |        3.06097      | ...
+    -----------------------------------------------------------------------
+    ...
     """
+    # Check that the arguments are of the correct type (i.e. str)
+    helpers.check_argument_type(start_season, 'start_season', str)
+    helpers.check_argument_type(end_season, 'end_season', str)
+    helpers.check_season_format(start_season)
+    helpers.check_season_format(end_season)
+    helpers.check_seasons(start_season, end_season)
 
     base_url = 'https://api.nhle.com/stats/rest/en/team/summary?'
     arguments = 'cayenneExp=gameTypeId=2' +\
                 f' and seasonId<={end_season}' +\
                 f' and seasonId>={start_season}'
-
-    # Check that the arguments are of the correct type (i.e. str)
-    helpers.check_argument_type(start_season, 'start_season', str)
-    helpers.check_argument_type(end_season, 'end_season', str)
 
     # Make the api request
     page = requests.get(base_url + arguments)
@@ -249,23 +258,23 @@ def draft_pick(pick_number=1, round_number=None, year=None):
 
     There are cases when even though user entered valid parameters,
     the output would be empty if a pick number didn't exist
-     in a specified round, an assert error would be raised.
+    in a specified round, an assert error would be raised.
 
-    Parameters:
-    ------------------------
-      pick_number : int
-        Desired pick number, must be in the range [1,38].
-        If nothing is specified, picks first draft in all rounds.
-      round_number : int
-        Desired round number, must be in the range [1,25]
-      year : str
-        Year in which a draft took place. Must be 'YYYY' format,
-        that contains year in a range [1963,2019]
+    Parameters
+    ----------
+    pick_number : int (default 1).
+      Desired pick number, must be in the range [1,38].
+      If nothing is specified, picks first draft in all rounds.
+    round_number : int (default None).
+      Desired round number, must be in the range [1,25]
+    year : int (default None).
+      Year in which a draft took place. Must be YYYY format,
+      that contains year in a range [1963,2019].
 
-    Returns:
-    ------------------------
-    draft_df : pd.DataFrame
-        Drafts with specified parameters.
+    Returns
+    -------
+    pandas.core.DataFrame
+      Drafts with specified parameters.
 
     Examples
     --------
@@ -281,13 +290,16 @@ def draft_pick(pick_number=1, round_number=None, year=None):
     Tim Eriksson      |     7     |    9     |   LAK    | 2000 | ...
     ------------------------------------------------
     """
-    # Checking if input is proper
+    # Check that the arguments are of the correct type (i.e. int) and value
+    helpers.check_argument_type(pick_number, 'pick_number', int)
     assert pick_number in range(1, 38), (
         'Number of pick is out of avaliable range')
-    if round_number:
+    if round_number is not None:
+        helpers.check_argument_type(round_number, 'round_number', int)
         assert round_number in range(1, 25), (
             'Number of round is out of avaliable range')
-    if year:
+    if year is not None:
+        helpers.check_argument_type(year, 'year', int)
         assert year in range(1963, 2019), 'Year is out if avaliable range'
 
     api = requests.get("https://records.nhl.com/site/api/draft").json()
