@@ -210,7 +210,6 @@ def team_stats(start_season="20192020", end_season="20192020"):
         The stat start year string in 'YYYYYYYY' format.
       end_season : str
         The stat end year string in 'YYYYYYYY' format.
-    
 
     Returns
     -------
